@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Shared look ---------- */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #4f46e5, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Buttons (used in Navbar/Hero) */
+.btn-primary {
+  @apply inline-flex items-center gap-2 rounded-xl bg-indigo-600 text-white font-semibold px-5 py-2.5 shadow-sm hover:bg-indigo-700 transition;
+}
+.btn-secondary {
+  @apply inline-flex items-center gap-2 rounded-xl bg-white text-gray-900 font-semibold px-5 py-2.5 shadow-sm border hover:bg-gray-50 transition;
+}
+
+/* Optional: card hover micro-interaction used by ServiceCard */
+.card-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.08);
+}
+
+/* Footer background dots */
+.footer-pattern {
+  background-image: radial-gradient(rgba(79, 70, 229, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: 0 0;
+  pointer-events: none;
+}
+
+/* Small slide-in utility for the mobile menu sheet */
+@keyframes slide-in-from-top-2 {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.animate-in.slide-in-from-top-2 {
+  animation: slide-in-from-top-2 220ms ease-out;
+}
+
+/* ---------- Bubbles (smooth + clickable) ---------- */
+/* The container is absolutely positioned via JSX classes: `absolute inset-0` */
+.bubble-layer {
+  overflow: hidden;
+  pointer-events: auto; /* container receives background clicks to push bubbles */
+}
+
+/* Each bubble is clickable, but we let JS own the transform on every frame.
+   DO NOT transition transform here (prevents the “teleport” effect). */
+.bubble {
+  pointer-events: auto;
+  cursor: pointer;
+  mix-blend-mode: normal;
+  opacity: 0.95;
+  will-change: transform;         /* hint GPU without animating transform in CSS */
+  transition: box-shadow .12s ease;
+  outline: none;
+}
+
+.bubble:focus-visible {
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35);
+}
+
+/* Tiny pulse only when clicked (JS toggles .bubble-pulse briefly) */
+@keyframes bubblePulse {
+  0%   { transform: scale(1); }
+  60%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.bubble-pulse {
+  animation: bubblePulse .16s ease-out;
+}
+
+/* --------- Accessibility: respect reduced motion --------- */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in.slide-in-from-top-2 {
+    animation: none;
+  }
+  .bubble, .bubble-pulse {
+    animation: none;
+    transition: none;
+  }
+}
+
+
+/* ---------- Mobile responsiveness ---------- */
+
+/* Ensure inputs don't overflow on mobile */
+input[type="file"] {
+  max-width: 100%;
+  font-size: 14px;
+}
+
+/* Fix overflow issues in modals on mobile */
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  /* Tighter padding on small screens */
+  section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Cards shouldn't have too much padding */
+  .card-hover {
+    padding: 12px;
+  }
+
+  /* Fix textarea and inputs on mobile */
+  textarea, input, select {
+    font-size: 16px !important; /* prevents iOS zoom on focus */
+  }
+}
+
+/* Ensure images are always responsive */
+img, canvas, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* optional pretty scrollbar */
+[class*="overflow-y-auto"]::-webkit-scrollbar { width: 10px; }
+[class*="overflow-y-auto"]::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2); border-radius: 8px;
+}
+[class*="overflow-y-auto"]::-webkit-scrollbar-track {
+  background: rgba(0,0,0,.06);
+}
+
