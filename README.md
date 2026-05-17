@@ -1,3 +1,3 @@
 # Navya Netra OMR and Theory Paper Scanner
-### Project Image
+### Project Preview Image
 ![Alt image](./image.png)
